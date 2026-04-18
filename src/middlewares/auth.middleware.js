@@ -6,7 +6,7 @@ export async function checkUser(req, res, next) {
     if (!token) {
       return res.status(401).json({
         success: false,
-        error: "token not found",
+        message: "token not found",
       });
     }
     let decoded = jwt.verify(token, process.env.JWT_URI);
@@ -15,7 +15,7 @@ export async function checkUser(req, res, next) {
   } catch (error) {
     return res.status(401).json({
       success: false,
-      error: "something went wrong",
+      message: "something went wrong",
     });
   }
 }

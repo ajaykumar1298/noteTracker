@@ -9,7 +9,7 @@ async function register(req, res) {
     if (error) {
       return res.status(400).json({
         success: false,
-        error: error.details[0].message,
+        message: error.details[0].message,
       });
     }
     let { username, email, userHandle, password } = value;
@@ -19,7 +19,7 @@ async function register(req, res) {
     if (isUserExist) {
       return res.status(409).json({
         success: false,
-        error: "user already exist",
+        message: "user already exist",
       });
     }
 
@@ -36,6 +36,7 @@ async function register(req, res) {
     res.cookie("token", token);
     return res.status(201).json({
       success: true,
+      message: "new user added",
       data: {
         user: newUser,
       },
@@ -44,7 +45,7 @@ async function register(req, res) {
     console.log(error);
     return res.status(401).json({
       success: false,
-      error: "something went wrong!",
+      message: "something went wrong!",
     });
   }
 }
@@ -55,7 +56,7 @@ async function login(req, res) {
     if (error) {
       return res.status(400).json({
         success: false,
-        error: error.details[0].message,
+        message: error.details[0].message,
       });
     }
 
@@ -68,7 +69,7 @@ async function login(req, res) {
     if (!user) {
       return res.status(401).json({
         success: false,
-        error: "user not found!",
+        message: "user not found!",
       });
     }
 
@@ -76,13 +77,14 @@ async function login(req, res) {
     if (!isPassValid) {
       return res.status(401).json({
         success: false,
-        error: "password not matched",
+        message: "password not matched",
       });
     }
     let token = generateToken(user);
     res.cookie("token", token);
     return res.status(200).json({
       success: true,
+      message: "user login successfully",
       data: {
         user,
       },
@@ -91,7 +93,7 @@ async function login(req, res) {
     console.log(error);
     return res.status(401).json({
       success: false,
-      error: "something went wrong!",
+      message: "something went wrong!",
     });
   }
 }
@@ -103,11 +105,12 @@ async function remove(req, res) {
     if (!removedUser) {
       return res.status(401).json({
         success: false,
-        error: "user already deleted",
+        message: "user already deleted",
       });
     }
     return res.status(200).json({
       success: true,
+      message: "user deleted successfully",
       data: {
         user: removedUser,
       },
@@ -115,7 +118,7 @@ async function remove(req, res) {
   } catch (error) {
     return res.status(401).json({
       success: false,
-      error: "something went wrong!",
+      message: "something went wrong!",
     });
   }
 }
@@ -125,7 +128,7 @@ async function update(req, res) {
     if (error) {
       return res.status(401).json({
         success: false,
-        error: error.details[0].message,
+        message: error.details[0].message,
       });
     }
     let id = req.params?.id;
@@ -153,11 +156,12 @@ async function update(req, res) {
     if (!updatedUser) {
       return res.status(401).json({
         success: false,
-        error: "id not found",
+        message: "id not found",
       });
     }
     return res.status(200).json({
       success: true,
+      message: "user update successfully",
       data: {
         user: updatedUser,
       },
@@ -165,7 +169,7 @@ async function update(req, res) {
   } catch (error) {
     return res.status(401).json({
       success: false,
-      error: "something went wrong!",
+      message: "something went wrong!",
     });
   }
 }

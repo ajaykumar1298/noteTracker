@@ -11,7 +11,7 @@ async function add(req, res) {
     if (error) {
       return res.status(401).json({
         success: false,
-        error: error.details[0].message,
+        message: error.details[0].message,
       });
     }
     let { title, desc } = value;
@@ -24,6 +24,7 @@ async function add(req, res) {
 
     return res.status(201).json({
       success: true,
+      message: "new note added!",
       data: {
         note: newNote,
       },
@@ -31,7 +32,7 @@ async function add(req, res) {
   } catch (error) {
     return res.status(401).json({
       success: false,
-      error: "something went wrong!",
+      message: "something went wrong!",
     });
   }
 }
@@ -43,6 +44,7 @@ async function getAll(req, res) {
       .populate("user", "username email userHandle");
     return res.status(200).json({
       success: true,
+      message: "fetched all notes successfully",
       data: {
         notes: allNotes,
       },
@@ -50,7 +52,7 @@ async function getAll(req, res) {
   } catch (error) {
     return res.status(401).json({
       success: false,
-      error: "something went wrong!",
+      message: "something went wrong!",
     });
   }
 }
@@ -58,23 +60,24 @@ async function getAll(req, res) {
 async function remove(req, res) {
   try {
     let id = req.params?.id;
-    let user = await noteModel.findByIdAndDelete({ _id: id });
-    if (!user) {
+    let note = await noteModel.findByIdAndDelete({ _id: id });
+    if (!note) {
       return res.status(401).json({
         success: false,
-        error: "data already delete",
+        message: "data already delete",
       });
     }
     return res.status(200).json({
       success: true,
+      message: "remove note successfully",
       data: {
-        user,
+        note,
       },
     });
   } catch (error) {
     return res.status(401).json({
       success: false,
-      error: "something went wrong!",
+      message: "something went wrong!",
     });
   }
 }
@@ -85,7 +88,7 @@ async function update(req, res) {
     if (error) {
       return res.status(401).json({
         success: false,
-        error: error.details[0].message,
+        message: error.details[0].message,
       });
     }
     let id = req.params?.id;
@@ -106,11 +109,12 @@ async function update(req, res) {
     if (!updatedNote) {
       return res.status(401).json({
         success: false,
-        error: "id not valid",
+        message: "id not valid",
       });
     }
     return res.status(200).json({
       success: true,
+      message: "note update successfully",
       data: {
         note: updatedNote,
       },
@@ -118,7 +122,7 @@ async function update(req, res) {
   } catch (error) {
     return res.status(401).json({
       success: false,
-      error: "something went wrong!",
+      message: "something went wrong!",
     });
   }
 }
