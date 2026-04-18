@@ -58,7 +58,7 @@ async function getAll(req, res) {
 async function remove(req, res) {
   try {
     let id = req.params?.id;
-    let user = await noteModel.findOneAndDelete({ _id: id });
+    let user = await noteModel.findByIdAndDelete({ _id: id });
     if (!user) {
       return res.status(401).json({
         success: false,
@@ -90,13 +90,13 @@ async function update(req, res) {
     }
     let id = req.params?.id;
     let updatedObj = {};
-    if (value.title) {
+    if (value?.title) {
       updatedObj.title = value.title;
     }
-    if (value.desc) {
+    if (value?.desc) {
       updatedObj.desc = value.desc;
     }
-    let updatedNote = await noteModel.findOneAndUpdate(
+    let updatedNote = await noteModel.findByIdAndUpdate(
       { _id: id },
       updatedObj,
       {

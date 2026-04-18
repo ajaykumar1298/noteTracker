@@ -96,4 +96,86 @@ async function login(req, res) {
   }
 }
 
-export { register, login };
+async function remove(req, res) {
+  try {
+    let id = req.params?.id;
+    let removedUser = await userModel.findByIdAndDelete({ _id: id });
+    if (!removedUser) {
+      return res.status(401).json({
+        success: false,
+        error: "user already deleted",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      data: {
+        user: removedUser,
+      },
+    });
+  } catch (error) {
+    return res.status(401).json({
+      success: false,
+      error: "something went wrong!",
+    });
+  }
+}
+async function update(req, res) {
+  try {
+    let { error, value } = authValidation.updateValidation.validate(req.body);
+    if (error) {
+      return res.status(401).json({
+        success: false,
+        error: error.details[0].message,
+      });
+    }
+    let id = req.params?.id;
+    let updatedObj = {};
+    if (value?.userHandle) {
+      updatedObj.userHandle = value.userHandle;
+    }
+    if (value?.username) {
+      updatedObj.username = value.username;
+    }
+    if (value?.email) {
+      updatedObj.email = value.email;
+    }
+    if (value?.password) {
+      let hash = await bcrypt.hash(value.password, 12);
+      updatedObj.password = hash;
+    }
+
+    let updatedUser = await userModel.findByIdAndUpdate(
+      { _id: id },
+      updatedObj,
+      { new: true },
+    );
+
+    if (!updatedUser) {
+      return res.status(401).json({
+        success: false,
+        error: "id not found",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      data: {
+        user: updatedUser,
+      },
+    });
+  } catch (error) {
+    return res.status(401).json({
+      success: false,
+      error: "something went wrong!",
+    });
+  }
+}
+
+async function logout(req, res) {
+  res.clearCookie("token");
+  res.status(200).json({
+    success: true,
+    message: "Logged out successfully",
+  });
+}
+
+export { register, login, remove, update, logout };
