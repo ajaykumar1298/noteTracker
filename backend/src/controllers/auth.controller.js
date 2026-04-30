@@ -7,6 +7,8 @@ async function register(req, res) {
   try {
     let { error, value } = authValidation.registerValidation.validate(req.body);
     if (error) {
+      console.log(error);
+
       return res.status(400).json({
         success: false,
         message: error.details[0].message,

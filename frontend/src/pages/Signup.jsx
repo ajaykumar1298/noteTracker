@@ -1,8 +1,30 @@
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Signup() {
   const navigate = useNavigate();
 
+  let handleSubmit = async function (e) {
+    e.preventDefault();
+
+    let username = document.querySelector("#username").value;
+    let userHandle = document.querySelector("#userHandle").value;
+    let email = document.querySelector("#email").value;
+    let password = document.querySelector("#password").value;
+
+    try {
+      const res = await axios.post("http://localhost:3000/api/auth/register", {
+        username,
+        email,
+        userHandle,
+        password,
+      });
+
+      console.log(res);
+    } catch (error) {
+      alert(error.response.data.message);
+    }
+  };
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black px-4 pt-16">
       {/* BIG TITLE OUTSIDE */}
@@ -15,23 +37,39 @@ function Signup() {
       {/* CARD */}
       <div className="flex justify-center">
         <div className="w-full max-w-md bg-gray-800 p-8 rounded-2xl shadow-2xl">
-          <h2 className="text-xl text-center text-gray-200 mb-6">Create your account</h2>
+          <h2 className="text-xl text-center text-gray-200 mb-6">
+            Create your account
+          </h2>
 
-          <form className="space-y-4">
+          <form
+            className="space-y-4"
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit(e);
+            }}
+          >
             {/* Handle */}
             <div>
-              <label className="text-gray-400 text-sm">User Handle</label>
+              <label htmlFor="userHandle" className="text-gray-400 text-sm">
+                User Handle
+              </label>
               <input
+                name="userHandle"
                 type="text"
                 placeholder="Enter handle"
+                id="userHandle"
                 className="text-sm w-full mt-1 p-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-orange-400"
               />
             </div>
 
             {/* Username */}
             <div>
-              <label className="text-gray-400 text-sm">User Name</label>
+              <label htmlFor="username" className="text-gray-400 text-sm">
+                User Name
+              </label>
               <input
+                id="username"
+                name="username"
                 type="text"
                 placeholder="Enter username"
                 className="text-sm w-full mt-1 p-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-orange-400"
@@ -40,8 +78,12 @@ function Signup() {
 
             {/* Email */}
             <div>
-              <label className="text-gray-400 text-sm">Email</label>
+              <label htmlFor="email" className="text-gray-400 text-sm">
+                Email
+              </label>
               <input
+                name="email"
+                id="email"
                 type="email"
                 placeholder="Enter email"
                 className="text-sm w-full mt-1 p-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-orange-400"
@@ -50,8 +92,12 @@ function Signup() {
 
             {/* Password */}
             <div>
-              <label className="text-gray-400 text-sm">Password</label>
+              <label htmlFor="password" className="text-gray-400 text-sm">
+                Password
+              </label>
               <input
+                name="password"
+                id="password"
                 type="password"
                 placeholder="Create password"
                 className="text-sm w-full mt-1 p-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-orange-400"
@@ -69,7 +115,10 @@ function Signup() {
             {/* Login Redirect */}
             <div className="text-center mt-4 text-gray-400 text-sm">
               Already have an account?{" "}
-              <span onClick={() => navigate("/login")} className="text-blue-400 cursor-pointer hover:underline">
+              <span
+                onClick={() => navigate("/login")}
+                className="text-blue-400 cursor-pointer hover:underline"
+              >
                 Login
               </span>
             </div>
