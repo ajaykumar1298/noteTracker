@@ -15,6 +15,30 @@ function Home() {
     id: "",
   });
 
+  // crate note
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
+  const handleAddNote = async () => {
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/api/note/add",
+        { title, desc: description },
+        {
+          withCredentials: true,
+        },
+      );
+      console.log(res);
+      alert(res.data.message);
+      setTitle("");
+      setDescription("");
+    } catch (error) {
+      console.log(error);
+      const msg = error?.response?.data?.message || "Something went wrong";
+      alert(msg);
+    }
+  };
+
   //delete note
   const handleDelete = async function (note) {
     try {
@@ -113,7 +137,7 @@ function Home() {
 
         <button
           onClick={() => navigate("/Create-note")}
-          className="bg-blue-500 hover:bg-blue-600 px-5 py-2 rounded-lg"
+          className="bg-blue-500 hover:bg-blue-600 px-5 py-2 rounded-lg cursor-pointer"
         >
           Create Note
         </button>
@@ -123,6 +147,7 @@ function Home() {
 
   return (
     <div className="min-h-screen text-white  py-8">
+      {/* all notes */}
       <div className="max-w-4xl mx-auto px-4 ">
         {/* Heading */}
         <h1 className="text-3xl font-bold mb-8  text-center">📒 All Notes</h1>
@@ -149,13 +174,13 @@ function Home() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleEditClick(note)}
-                    className="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-1 rounded-lg text-sm"
+                    className="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-1 cursor-pointer rounded-lg text-sm"
                   >
                     Edit
                   </button>
 
                   <button
-                    className="bg-red-500 hover:bg-red-600 px-4 py-1 rounded-lg text-sm"
+                    className="bg-red-500 hover:bg-red-600 px-4 py-1 cursor-pointer rounded-lg text-sm"
                     onClick={() => handleDelete(note)}
                   >
                     Delete
@@ -208,14 +233,14 @@ function Home() {
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="px-4 py-2 rounded-lg bg-gray-700 hover:bg-gray-600"
+                className="px-4 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 cursor-pointer"
               >
                 Cancel
               </button>
 
               <button
                 onClick={handleUpdate}
-                className="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white font-semibold"
+                className="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white font-semibold cursor-pointer"
               >
                 Save
               </button>

@@ -101,8 +101,8 @@ async function login(req, res) {
 
 async function remove(req, res) {
   try {
-    let id = req.params?.id;
-    let removedUser = await userModel.findByIdAndDelete({ _id: id });
+    // let id = req.params?.id;
+    let removedUser = await userModel.findByIdAndDelete({ _id: req.user.id });
     if (!removedUser) {
       return res.status(401).json({
         success: false,
@@ -132,22 +132,32 @@ async function update(req, res) {
         message: error.details[0].message,
       });
     }
-    let id = req.params?.id;
+
+    // let id = req.params?.id;
     let updatedObj = {};
 
     if (value?.username) {
       updatedObj.username = value.username;
     }
     if (value?.email) {
+      let email = value.email;
+      let isEmail = await userModel.findOne({
+        $or: [{ email }],
+      });
+      if (isEmail && isEmail._id != req.user.id) {
+        return res.status(409).json({
+          success: false,
+          message: "email already exist please try new one",
+        });
+      }
       updatedObj.email = value.email;
     }
-    if (value?.password) {
-      let hash = await bcrypt.hash(value.password, 12);
-      updatedObj.password = hash;
-    }
-
+    // if (value?.password) {
+    //   let hash = await bcrypt.hash(value.password, 12);
+    //   updatedObj.password = hash;
+    // }
     let updatedUser = await userModel.findByIdAndUpdate(
-      { _id: id },
+      { _id: req.user.id },
       updatedObj,
       { new: true },
     );

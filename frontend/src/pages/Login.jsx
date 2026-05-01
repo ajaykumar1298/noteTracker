@@ -18,7 +18,10 @@ function Login() {
       );
       alert(res.data.message);
       let username = res?.data?.data?.user?.username;
+      let email = res?.data?.data?.user?.email;
       sessionStorage.setItem("username", username);
+      sessionStorage.setItem("email", email);
+      window.dispatchEvent(new Event("storage"));
       navigate("/");
     } catch (error) {
       console.log(error);

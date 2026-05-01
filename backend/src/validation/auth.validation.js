@@ -30,9 +30,12 @@ const loginValidation = Joi.object({
 });
 
 const updateValidation = Joi.object({
-  username: Joi.string().trim().min(2).max(250),
-  email: Joi.string().trim().email().lowercase(),
-  password: Joi.string().min(1),
+  username: Joi.string().trim().min(2).messages({
+    "string.empty": "username cannot be empty",
+  }),
+  email: Joi.string().trim().email().lowercase().messages({
+    "string.empty": "email cannot be empty",
+  }),
 });
 
 export { registerValidation, loginValidation, updateValidation };
