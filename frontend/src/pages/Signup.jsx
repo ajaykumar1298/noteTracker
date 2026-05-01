@@ -6,30 +6,31 @@ function Signup() {
 
   let handleSubmit = async function (e) {
     e.preventDefault();
-
-    let username = document.querySelector("#username").value;
-    let userHandle = document.querySelector("#userHandle").value;
-    let email = document.querySelector("#email").value;
-    let password = document.querySelector("#password").value;
-
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
     try {
-      const res = await axios.post("http://localhost:3000/api/auth/register", {
-        username,
-        email,
-        userHandle,
-        password,
-      });
-
-      console.log(res);
+      const res = await axios.post(
+        "http://localhost:3000/api/auth/register",
+        data,
+        {
+          withCredentials: true,
+        },
+      );
+      alert(res.data.message);
+      let username = res?.data?.data?.user?.username;
+      sessionStorage.setItem("username", username);
+      navigate("/");
     } catch (error) {
-      alert(error.response.data.message);
+      console.log(error);
+      const msg = error?.response?.data?.message || "Something went wrong";
+      alert(msg);
     }
   };
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black px-4 pt-16">
       {/* BIG TITLE OUTSIDE */}
       <div className="text-center mb-10">
-        <h1 className="text-5xl font-extrabold bg-gradient-to-r from-orange-400 to-white text-transparent bg-clip-text">
+        <h1 className="text-5xl font-extrabold bg-gradient-to-r from-blue-400 to-white text-transparent bg-clip-text">
           Note Tracker
         </h1>
       </div>
@@ -49,7 +50,7 @@ function Signup() {
             }}
           >
             {/* Handle */}
-            <div>
+            {/* <div>
               <label htmlFor="userHandle" className="text-gray-400 text-sm">
                 User Handle
               </label>
@@ -58,9 +59,9 @@ function Signup() {
                 type="text"
                 placeholder="Enter handle"
                 id="userHandle"
-                className="text-sm w-full mt-1 p-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-orange-400"
+                className="text-sm w-full mt-1 p-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
-            </div>
+            </div> */}
 
             {/* Username */}
             <div>
@@ -72,7 +73,7 @@ function Signup() {
                 name="username"
                 type="text"
                 placeholder="Enter username"
-                className="text-sm w-full mt-1 p-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-orange-400"
+                className="text-sm w-full mt-1 p-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             </div>
 
@@ -86,7 +87,7 @@ function Signup() {
                 id="email"
                 type="email"
                 placeholder="Enter email"
-                className="text-sm w-full mt-1 p-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-orange-400"
+                className="text-sm w-full mt-1 p-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             </div>
 
@@ -100,14 +101,14 @@ function Signup() {
                 id="password"
                 type="password"
                 placeholder="Create password"
-                className="text-sm w-full mt-1 p-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-orange-400"
+                className="text-sm w-full mt-1 p-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             </div>
 
             {/* Button */}
             <button
               type="submit"
-              className="w-full py-2 mt-4 bg-gradient-to-r from-green-400 to-green-600 rounded-lg font-semibold  shadow-lg"
+              className="w-full py-2 mt-4 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold  shadow-lg"
             >
               Signup
             </button>
