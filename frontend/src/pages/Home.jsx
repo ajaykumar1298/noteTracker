@@ -107,7 +107,7 @@ function Home() {
   // data not found
   if (data.length === 0) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-[#0f172a] text-white px-4">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-800 text-white px-4">
         <h1 className="text-2xl font-bold mb-2">No Notes Yet 📭</h1>
         <p className="text-gray-400 mb-4">Start by creating your first note</p>
 
