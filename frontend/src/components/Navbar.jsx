@@ -2,18 +2,14 @@ import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { UserCircle } from "lucide-react";
 import axios from "axios";
+import { useRef } from "react";
 
 function Navbar() {
-  const user = sessionStorage.getItem("username");
-  const email = sessionStorage.getItem("email");
   const navigate = useNavigate();
-
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
-
-  const [userData, setUserData] = useState({
-    username: user,
-    email: email,
-  });
+  let user = sessionStorage.getItem("username");
+  let usernameRef = useRef(null);
+  let emailRef = useRef(null);
 
   const handleUserDeleteAction = async function () {
     try {
@@ -41,8 +37,8 @@ function Navbar() {
       const res = await axios.patch(
         "http://localhost:3000/api/auth/update-user",
         {
-          username: userData.username,
-          email: userData.email,
+          username: usernameRef.current.value,
+          email: emailRef.current.value,
         },
         {
           withCredentials: true,
@@ -64,22 +60,29 @@ function Navbar() {
       navigate("/login");
     }
   }, [user, navigate]);
+  // useEffect(() => {
+  //   const syncUser = () => {
+  //     setUserData({
+  //       username: sessionStorage.getItem("username") || "",
+  //       email: sessionStorage.getItem("email") || "",
+  //     });
+  //   };
+
+  //   syncUser();
+
+  //   window.addEventListener("storage", syncUser);
+
+  //   return () => {
+  //     window.removeEventListener("storage", syncUser);
+  //   };
+  // }, []);
+
   useEffect(() => {
-    const syncUser = () => {
-      setUserData({
-        username: sessionStorage.getItem("username") || "",
-        email: sessionStorage.getItem("email") || "",
-      });
-    };
-
-    syncUser();
-
-    window.addEventListener("storage", syncUser);
-
-    return () => {
-      window.removeEventListener("storage", syncUser);
-    };
-  }, []);
+    if (isUserModalOpen) {
+      usernameRef.current.value = sessionStorage.getItem("username");
+      emailRef.current.value = sessionStorage.getItem("email");
+    }
+  }, [isUserModalOpen]);
 
   return (
     <div className="flex justify-between bg-gray-900 items-center p-4">
@@ -145,20 +148,14 @@ function Navbar() {
             {/* Username */}
             <label className="text-sm text-gray-400 mb-1 block">Username</label>
             <input
-              value={userData.username}
-              onChange={(e) =>
-                setUserData({ ...userData, username: e.target.value })
-              }
+              ref={usernameRef}
               className="w-full p-3 mb-4 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
 
             {/* Email */}
             <label className="text-sm text-gray-400 mb-1 block">Email</label>
             <input
-              value={userData.email}
-              onChange={(e) =>
-                setUserData({ ...userData, email: e.target.value })
-              }
+              ref={emailRef}
               className="w-full p-3 mb-4 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
 
