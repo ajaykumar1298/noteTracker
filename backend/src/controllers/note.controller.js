@@ -41,7 +41,7 @@ async function getAll(req, res) {
   try {
     let allNotes = await noteModel
       .find({ user: req.user.id })
-      .populate("user", "username email userHandle");
+      .populate("user", "username email");
     return res.status(200).json({
       success: true,
       message: "fetched all notes successfully",

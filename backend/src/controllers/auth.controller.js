@@ -14,9 +14,9 @@ async function register(req, res) {
         message: error.details[0].message,
       });
     }
-    let { username, email, userHandle, password } = value;
+    let { username, email, password } = value;
     let isUserExist = await userModel.findOne({
-      $or: [{ userHandle }, { email }],
+      $or: [{ email }],
     });
     if (isUserExist) {
       return res.status(409).json({
@@ -29,7 +29,6 @@ async function register(req, res) {
 
     let newUser = await userModel.create({
       username,
-      userHandle,
       email,
       password: hash,
     });
@@ -62,10 +61,10 @@ async function login(req, res) {
       });
     }
 
-    let { userHandle, email, password } = value;
+    let { email, password } = value;
 
     let user = await userModel.findOne({
-      $or: [{ userHandle }, { email }],
+      $or: [{ email }],
     });
 
     if (!user) {
@@ -135,9 +134,7 @@ async function update(req, res) {
     }
     let id = req.params?.id;
     let updatedObj = {};
-    if (value?.userHandle) {
-      updatedObj.userHandle = value.userHandle;
-    }
+
     if (value?.username) {
       updatedObj.username = value.username;
     }
