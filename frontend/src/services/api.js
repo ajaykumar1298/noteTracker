@@ -1,5 +1,5 @@
 import axios from "axios";
-const uri = `${import.meta.env.VITE_API_URL}/api`;
+const uri = `${import.meta.env.VITE_API_URL}api`;
 
 // user
 
