@@ -6,9 +6,20 @@ import noteRoutes from "./routes/note.routes.js";
 
 const app = express();
 app.use(express.json());
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://note-tracker-mu.vercel.app",
+];
+
 app.use(
   cors({
-    origin: "https://note-tracker-mu.vercel.app/",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   }),
 );
