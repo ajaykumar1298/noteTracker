@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { setUser, userApi } from "../services/api";
 
 function Signup() {
   const navigate = useNavigate();
@@ -9,18 +9,9 @@ function Signup() {
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
     try {
-      const res = await axios.post(
-        "http://localhost:3000/api/auth/register",
-        data,
-        {
-          withCredentials: true,
-        },
-      );
+      const res = await userApi(data, "/auth/register");
       alert(res.data.message);
-      let username = res?.data?.data?.user?.username;
-      let email = res?.data?.data?.user?.email;
-      sessionStorage.setItem("username", username);
-      sessionStorage.setItem("email", email);
+      setUser(res);
       window.dispatchEvent(new Event("storage"));
       navigate("/");
     } catch (error) {
@@ -30,15 +21,13 @@ function Signup() {
     }
   };
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black px-4 pt-16">
-      {/* BIG TITLE OUTSIDE */}
+    <div className="min-h-screen bg-gradient-to-r from-gray-900 to-gray-800 px-4 pt-16">
       <div className="text-center mb-10">
         <h1 className="text-5xl font-extrabold bg-gradient-to-r from-blue-400 to-white text-transparent bg-clip-text">
           Note Tracker
         </h1>
       </div>
 
-      {/* CARD */}
       <div className="flex justify-center">
         <div className="w-full max-w-md bg-gray-800 p-8 rounded-2xl shadow-2xl">
           <h2 className="text-xl text-center text-gray-200 mb-6">
@@ -52,20 +41,6 @@ function Signup() {
               handleSubmit(e);
             }}
           >
-            {/* Handle */}
-            {/* <div>
-              <label htmlFor="userHandle" className="text-gray-400 text-sm">
-                User Handle
-              </label>
-              <input
-                name="userHandle"
-                type="text"
-                placeholder="Enter handle"
-                id="userHandle"
-                className="text-sm w-full mt-1 p-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
-              />
-            </div> */}
-
             {/* Username */}
             <div>
               <label htmlFor="username" className="text-gray-400 text-sm">

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { allNoteFetched, deleteNote, updateNote } from "../services/api";
 
 function Home() {
   const navigate = useNavigate();
@@ -15,86 +15,24 @@ function Home() {
     id: "",
   });
 
-  // crate note
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-
-  const handleAddNote = async () => {
-    try {
-      const res = await axios.post(
-        "http://localhost:3000/api/note/add",
-        { title, desc: description },
-        {
-          withCredentials: true,
-        },
-      );
-      console.log(res);
-      alert(res.data.message);
-      setTitle("");
-      setDescription("");
-    } catch (error) {
-      console.log(error);
-      const msg = error?.response?.data?.message || "Something went wrong";
-      alert(msg);
-    }
-  };
-
-  //delete note
-  const handleDelete = async function (note) {
-    try {
-      const res = await axios.delete(
-        "http://localhost:3000/api/note/remove/" + note._id,
-        {
-          withCredentials: true,
-        },
-      );
-
-      alert(res.data.message);
-
-      setData((prev) => prev.filter((n) => n._id !== note._id));
-    } catch (error) {
-      console.log(error);
-      const msg = error?.response?.data?.message || "Something went wrong";
-      alert(msg);
-    }
-  };
-
   // fetch note
   const handleNotes = async function () {
     try {
-      let res = await axios.get("http://localhost:3000/api/note/all-notes", {
-        withCredentials: true,
-      });
-
-      setData(res.data.data.notes);
+      let res = await allNoteFetched();
+      setData(res.data?.data?.notes);
     } catch (error) {
       console.log(error);
       setData([]);
     }
   };
 
-  //  model handle
-  const handleEditClick = (note) => {
-    setEditNote({
-      title: note.title,
-      desc: note.desc,
-      id: note._id,
-    });
-
-    setIsModalOpen(true);
-  };
-
   // update note
   const handleUpdate = async () => {
     try {
-      const res = await axios.patch(
-        `http://localhost:3000/api/note/update/${editNote.id}`,
-        {
-          title: editNote.title,
-          desc: editNote.desc,
-        },
-        { withCredentials: true },
-      );
+      const res = await updateNote(editNote.id, {
+        title: editNote.title,
+        desc: editNote.desc,
+      });
 
       alert(res.data.message);
 
@@ -111,6 +49,31 @@ function Home() {
       console.log(error);
       alert(error?.response?.data?.message || "Update failed");
     }
+  };
+  //delete note
+  const handleDelete = async function (note) {
+    try {
+      const res = await deleteNote(note._id);
+
+      alert(res.data.message);
+
+      setData((prev) => prev.filter((n) => n._id !== note._id));
+    } catch (error) {
+      console.log(error);
+      const msg = error?.response?.data?.message || "Something went wrong";
+      alert(msg);
+    }
+  };
+
+  //  model handle
+  const handleEditClick = (note) => {
+    setEditNote({
+      title: note.title,
+      desc: note.desc,
+      id: note._id,
+    });
+
+    setIsModalOpen(true);
   };
 
   // auth check

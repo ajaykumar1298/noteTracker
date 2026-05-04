@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { UserCircle } from "lucide-react";
-import axios from "axios";
 import { useRef } from "react";
+import { deleteUser, removeUser, setUser, updateUser } from "../services/api";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -13,17 +13,11 @@ function Navbar() {
 
   const handleUserDeleteAction = async function () {
     try {
-      const res = await axios.delete(
-        "http://localhost:3000/api/auth/remove-user",
-        {
-          withCredentials: true,
-        },
-      );
+      const res = await deleteUser();
 
       alert(res.data.message);
       setIsUserModalOpen(false);
-      sessionStorage.removeItem("username");
-      sessionStorage.removeItem("email");
+      removeUser();
       window.dispatchEvent(new Event("storage"));
       navigate("/login");
     } catch (error) {
@@ -34,20 +28,13 @@ function Navbar() {
   };
   const handleUserEditAction = async function () {
     try {
-      const res = await axios.patch(
-        "http://localhost:3000/api/auth/update-user",
-        {
-          username: usernameRef.current.value,
-          email: emailRef.current.value,
-        },
-        {
-          withCredentials: true,
-        },
-      );
+      const res = await updateUser({
+        username: usernameRef.current.value,
+        email: emailRef.current.value,
+      });
 
       alert(res.data.message);
-      sessionStorage.setItem("username", res?.data?.data?.user?.username);
-      sessionStorage.setItem("email", res?.data?.data?.user?.email);
+      setUser(res);
       setIsUserModalOpen(false);
     } catch (error) {
       console.log(error);

@@ -1,5 +1,5 @@
-import axios from "axios";
 import { useState } from "react";
+import { addNote } from "../services/api";
 
 function CreateNote() {
   const [title, setTitle] = useState("");
@@ -7,13 +7,7 @@ function CreateNote() {
 
   const handleAddNote = async () => {
     try {
-      const res = await axios.post(
-        "http://localhost:3000/api/note/add",
-        { title, desc: description },
-        {
-          withCredentials: true,
-        },
-      );
+      const res = await addNote({ title, desc: description });
       console.log(res);
       alert(res.data.message);
       setTitle("");
