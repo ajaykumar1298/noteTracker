@@ -1,196 +1,219 @@
-import { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 import { UserCircle } from "lucide-react";
-import { useRef } from "react";
-import { deleteUser, removeUser, setUser, updateUser } from "../services/api";
 
 function Navbar() {
   const navigate = useNavigate();
-  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
-  let user = sessionStorage.getItem("username");
-  let usernameRef = useRef(null);
-  let emailRef = useRef(null);
+  const location = useLocation();
 
-  const handleUserDeleteAction = async function () {
+  // FIXED USER STATE
+  const [user, setUser] = useState(null);
+
+  // popup states
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+
+  // latest user from localStorage
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    setUser(storedUser);
+  }, [location]);
+
+  const handleLogout = async function () {
+    localStorage.removeItem("user");
+
+    setUser(null);
+
+    alert("User logged out successfully!");
+
+    navigate("/login");
+  };
+
+  // open popup
+  const handleOpenEdit = () => {
+    setUsername(user.username);
+    setEmail(user.email);
+
+    setIsEditOpen(true);
+  };
+
+  // update user
+  const handleUpdateUser = async () => {
     try {
-      const res = await deleteUser();
+      if (username.trim() === "" || email.trim() === "") {
+        alert("All fields are required");
+        return;
+      }
 
-      alert(res.data.message);
-      setIsUserModalOpen(false);
-      removeUser();
-      window.dispatchEvent(new Event("storage"));
-      navigate("/login");
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      let isEmailValid = emailRegex.test(email);
+
+      if (!isEmailValid) {
+        alert("Email is not valid");
+        return;
+      }
+
+      const updatedUser = {
+        username,
+        email,
+      };
+
+      // api call
+      const res = await axios.patch(
+        "http://localhost:3000/api/auth/update-user",
+        updatedUser,
+        {
+          withCredentials: true,
+        },
+      );
+
+      // update localStorage
+      localStorage.setItem("user", JSON.stringify(res.data.data.user));
+
+      // update state
+      setUser(res.data.data.user);
+
+      alert("User updated successfully!");
+
+      setIsEditOpen(false);
     } catch (error) {
       console.log(error);
-      const msg = error?.response?.data?.message || "Something went wrong";
-      alert(msg);
+
+      alert(error?.response?.data?.message || "Failed to update user");
     }
   };
-  const handleUserEditAction = async function () {
+
+  // delete account
+  const handleDeleteAccount = async () => {
     try {
-      const res = await updateUser({
-        username: usernameRef.current.value,
-        email: emailRef.current.value,
+      const confirmDelete = confirm(
+        "Are you sure you want to delete your account?",
+      );
+
+      if (!confirmDelete) return;
+
+      await axios.delete("http://localhost:3000/api/auth/remove-user", {
+        withCredentials: true,
       });
 
-      alert(res.data.message);
-      setUser(res);
-      setIsUserModalOpen(false);
+      localStorage.removeItem("user");
+
+      setUser(null);
+      setIsEditOpen(false);
+
+      alert("Account deleted successfully!");
+
+      navigate("/register");
     } catch (error) {
       console.log(error);
-      const msg = error?.response?.data?.message || "Something went wrong";
-      alert(msg);
+
+      alert(error?.response?.data?.message || "Failed to delete account");
     }
   };
-  useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    }
-  }, [user, navigate]);
-  // useEffect(() => {
-  //   const syncUser = () => {
-  //     setUserData({
-  //       username: sessionStorage.getItem("username") || "",
-  //       email: sessionStorage.getItem("email") || "",
-  //     });
-  //   };
 
-  //   syncUser();
-
-  //   window.addEventListener("storage", syncUser);
-
-  //   return () => {
-  //     window.removeEventListener("storage", syncUser);
-  //   };
-  // }, []);
-
-  useEffect(() => {
-    if (isUserModalOpen) {
-      usernameRef.current.value = sessionStorage.getItem("username");
-      emailRef.current.value = sessionStorage.getItem("email");
-    }
-  }, [isUserModalOpen]);
+  const hideUserSection =
+    location.pathname === "/login" || location.pathname === "/register";
 
   return (
-    <div className="flex justify-between bg-gray-900 items-center p-4">
-      {/* Logo */}
-      <div className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-white bg-clip-text text-transparent">
-        Note Tracker
-      </div>
+    <>
+      <div className="flex justify-between bg-[#111c44] border-b border-gray-700 items-center px-6 py-4 text-white sticky top-0 z-40">
+        <div
+          onClick={() => navigate("/note")}
+          className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent cursor-pointer"
+        >
+          NoteTracker
+        </div>
 
-      {/* Links */}
-      {user && (
-        <>
-          <div>
-            <ul className="flex flex-row gap-4 text-white">
-              <li>
-                <NavLink to={"/"}>All Notes</NavLink>
-              </li>
-              <li>
-                <NavLink to={"/Create-note"}>Create Note</NavLink>
-              </li>
-            </ul>
-          </div>
-
-          {/* Right Side */}
-          <div className="flex flex-row gap-4 items-center">
-            {/* USER BUTTON */}
+        {user && !hideUserSection && (
+          <div className="flex items-center gap-4">
             <button
-              onClick={() => setIsUserModalOpen(true)}
-              className="flex items-center gap-2 border-1  hover:bg-gray-700 cursor-pointer text-white rounded-lg font-semibold px-4 py-2 transition"
+              onClick={handleOpenEdit}
+              className="cursor-pointer border border-gray-600 hover:border-blue-500 px-4 py-2 rounded-xl text-sm font-medium transition-all flex items-center gap-2"
             >
-              <UserCircle size={22} />
-              <span className="font-bold">Hello {user}</span>
+              <UserCircle size={20} />
+
+              <span>{user.username}</span>
             </button>
 
-            {/* LOGOUT */}
             <button
-              className="bg-gradient-to-r from-red-400 to-red-600 rounded-lg font-semibold p-2 text-white cursor-pointer"
-              onClick={() => {
-                sessionStorage.removeItem("username");
-                sessionStorage.removeItem("email");
-                window.dispatchEvent(new Event("storage"));
-                navigate("/login");
-              }}
+              onClick={handleLogout}
+              className="cursor-pointer bg-red-500 hover:bg-red-600 px-4 py-2 rounded-xl text-sm font-medium transition-all"
             >
               Logout
             </button>
           </div>
-        </>
-      )}
+        )}
+      </div>
 
-      {/* ================= USER MODAL ================= */}
-      {isUserModalOpen && (
-        <div
-          className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm"
-          onClick={() => setIsUserModalOpen(false)} // outside click close
-        >
-          {/* Modal Box */}
-          <div
-            className="bg-[#0f172a] text-white w-[420px] rounded-2xl p-6 shadow-xl border border-gray-700"
-            onClick={(e) => e.stopPropagation()} // prevent close inside click
-          >
-            <h2 className="text-2xl font-bold mb-5">👤 Profile Settings</h2>
+      {/* edit popup */}
+      {isEditOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50 px-4">
+          <div className="bg-[#111c44] border border-gray-700 w-full max-w-md rounded-3xl p-6 shadow-2xl relative">
+            {/* close btn */}
+            <button
+              onClick={() => setIsEditOpen(false)}
+              className="cursor-pointer absolute top-4 right-4 text-gray-400 hover:text-white text-xl font-bold"
+            >
+              X
+            </button>
 
-            {/* Username */}
-            <label className="text-sm text-gray-400 mb-1 block">Username</label>
-            <input
-              ref={usernameRef}
-              className="w-full p-3 mb-4 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <h2 className="text-2xl font-bold text-white mb-2">Edit Profile</h2>
 
-            {/* Email */}
-            <label className="text-sm text-gray-400 mb-1 block">Email</label>
-            <input
-              ref={emailRef}
-              className="w-full p-3 mb-4 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <p className="text-gray-400 text-sm mb-6">
+              Update your account details.
+            </p>
 
-            {/* Password */}
-            {/* <label className="text-sm text-gray-400 mb-1 block">Password</label>
-            <input
-              type="password"
-              value={userData.password}
-              onChange={(e) =>
-                setUserData({ ...userData, password: e.target.value })
-              }
-              className="w-full p-3 mb-5 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            /> */}
+            <div className="space-y-5">
+              <div>
+                <label className="text-sm text-gray-300">Username</label>
 
-            {/* Buttons */}
-            <div className="flex justify-between items-center">
-              {/* DELETE ACCOUNT */}
-              <button
-                onClick={() => {
-                  handleUserDeleteAction();
-                }}
-                className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-sm font-semibold"
-              >
-                Delete Account
-              </button>
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Enter username"
+                  className="w-full mt-2 bg-[#1d2a52] border border-gray-600 rounded-xl px-4 py-3 outline-none focus:border-blue-500 text-white"
+                />
+              </div>
 
-              <div className="flex gap-3">
+              <div>
+                <label className="text-sm text-gray-300">Email</label>
+
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter email"
+                  className="w-full mt-2 bg-[#1d2a52] border border-gray-600 rounded-xl px-4 py-3 outline-none focus:border-blue-500 text-white"
+                />
+              </div>
+
+              {/* buttons */}
+              <div className="flex justify-end gap-4 items-center pt-4">
+                {/* delete account */}
                 <button
-                  onClick={() => setIsUserModalOpen(false)}
-                  className="px-4 py-2 rounded-lg bg-gray-700 hover:bg-gray-600"
+                  onClick={handleDeleteAccount}
+                  className="cursor-pointer bg-red-500 hover:bg-red-600 px-5 py-2 rounded-xl font-medium text-white"
                 >
-                  Cancel
+                  Delete Account
                 </button>
 
+                {/* save */}
                 <button
-                  onClick={() => {
-                    handleUserEditAction();
-                  }}
-                  className="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white font-semibold"
+                  onClick={handleUpdateUser}
+                  className="cursor-pointer bg-green-500 hover:bg-green-700 text-white px-5 py-2 rounded-xl font-medium"
                 >
-                  Save
+                  Save Changes
                 </button>
               </div>
             </div>
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
 

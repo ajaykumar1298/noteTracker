@@ -1,3 +1,4 @@
+import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
@@ -8,17 +9,47 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Login from "./pages/Login.jsx";
-import Signup from "./pages/Signup.jsx";
-import Home from "./pages/Home.jsx";
-import CreateNote from "./pages/CreateNote.jsx";
+import Register from "./pages/Register.jsx";
+import Note from "./pages/Note.jsx";
+import ProtectedRoute from "./components/ProtectedRouteNote.jsx";
+import ProtectedRouteLogin from "./components/ProtectedRRouteLogin.jsx";
+import ProtectedRouteNote from "./components/ProtectedRouteNote.jsx";
 
-let router = createBrowserRouter(
+const router = createBrowserRouter(
   createRoutesFromChildren(
     <Route path="/" element={<App />}>
-      <Route index element={<Home />}></Route>
-      <Route path="/login" element={<Login />}></Route>
-      <Route path="/signup" element={<Signup />}></Route>
-      <Route path="/Create-note" element={<CreateNote />}></Route>
+      <Route
+        index
+        element={
+          <ProtectedRouteLogin>
+            <Login />
+          </ProtectedRouteLogin>
+        }
+      ></Route>
+      <Route
+        path="login"
+        element={
+          <ProtectedRouteLogin>
+            <Login />
+          </ProtectedRouteLogin>
+        }
+      ></Route>
+      <Route
+        path="register"
+        element={
+          <ProtectedRouteLogin>
+            <Register />
+          </ProtectedRouteLogin>
+        }
+      ></Route>
+      <Route
+        path="note"
+        element={
+          <ProtectedRouteNote>
+            <Note />
+          </ProtectedRouteNote>
+        }
+      ></Route>
     </Route>,
   ),
 );

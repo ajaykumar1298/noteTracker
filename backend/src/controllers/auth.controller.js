@@ -82,6 +82,7 @@ async function login(req, res) {
       });
     }
     let token = generateToken(user);
+
     res.cookie("token", token);
     return res.status(200).json({
       success: true,
