@@ -1,65 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { validateEmail } from "../utils/validators";
+import { loginUser } from "../api/authApi";
+import { setUser } from "../utils/storage";
 
 function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-
-  const handleLogin = async function () {
+  const handleLogin = async () => {
     try {
-      // check email
-      if (email.trim() == "") {
-        alert("Email cannot be empty");
-        return;
-      }
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      let checkEmail = emailRegex.test(email);
-      if (!checkEmail) {
-        alert("email is not valid");
+      if (!email || !password) {
+        alert("All fields are required");
         return;
       }
 
-      //check password
-      if (password.trim() == "") {
-        alert("password cannot be empty");
+      if (!validateEmail(email)) {
+        alert("Invalid Email");
         return;
       }
 
-      //   login user
-      const res = await axios.post(
-        "http://localhost:3000/api/auth/login",
-        {
-          email,
-          password,
-        },
-        {
-          withCredentials: true,
-        },
-      );
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          email: res.data.data.user.email,
-          username: res.data.data.user.username,
-        }),
-      );
-      alert("user logged in successfully!");
+      const data = await loginUser({ email, password });
+      let userDetail = {
+        username: data.data.user.username,
+        email: data.data.user.email,
+      };
+      setUser(userDetail);
+      alert("Login Successful");
       navigate("/note");
     } catch (error) {
       console.log(error);
-      alert(error?.response?.data?.message || "something went wrong");
+
+      alert(error?.response?.data?.message || "Login Failed");
     }
   };
-  // useEffect(() => {
-  //   const user = JSON.parse(localStorage.getItem("user"));
-
-  //   if (user) {
-  //     navigate("/note");
-  //   }
-  // }, []);
 
   return (
     <div className="text-white min-h-screen bg-gradient-to-r from-gray-900 to-gray-800 px-4 pt-16 ">

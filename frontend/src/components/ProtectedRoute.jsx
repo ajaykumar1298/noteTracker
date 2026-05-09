@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 
-function ProtectedRouteNote({ children }) {
+function ProtectedRoute({ children }) {
   const user = JSON.parse(localStorage.getItem("user"));
 
   if (!user) {
@@ -11,4 +11,4 @@ function ProtectedRouteNote({ children }) {
   return children;
 }
 
-export default ProtectedRouteNote;
+export default ProtectedRoute;
