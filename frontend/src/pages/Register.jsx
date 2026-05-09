@@ -1,6 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { validateEmail } from "../utils/validators";
+import { registerUser } from "../api/authApi";
+import { setUser } from "../utils/storage";
 
 function Register() {
   const navigate = useNavigate();
@@ -12,43 +15,21 @@ function Register() {
 
   const handleRegister = async function () {
     try {
-      if (form.username.trim() == "") {
-        alert("Username cannot be empty");
+      if (!form.username || !form.email || !form.password) {
+        alert("All fields are required");
         return;
       }
-      if (form.email.trim() == "") {
-        alert("Email cannot be empty");
-        return;
-      }
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      let email = emailRegex.test(form.email);
-      if (!email) {
-        alert("email is not valid");
-        return;
-      }
-      if (form.password.trim() == "") {
-        alert("Password cannot be empty");
+      if (!validateEmail(form.email)) {
+        alert("Invalid Email");
         return;
       }
 
-      const res = await axios.post(
-        "http://localhost:3000/api/auth/register",
-        {
-          username: form.username,
-          email: form.email,
-          password: form.password,
-        },
-        {
-          withCredentials: true,
-        },
-      );
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          email: res.data.data.user.email,
-          username: res.data.data.user.username,
-        }),
-      );
+      const data = await registerUser(form);
+      let userDetail = {
+        username: data.data.user.username,
+        email: data.data.user.email,
+      };
+      setUser(userDetail);
       alert("New user add successfully!");
       navigate("/note");
     } catch (error) {
@@ -56,13 +37,6 @@ function Register() {
       alert(error?.response?.data?.message || "something went wrong");
     }
   };
-  // useEffect(() => {
-  //   const user = JSON.parse(localStorage.getItem("user"));
-
-  //   if (user) {
-  //     navigate("/note");
-  //   }
-  // }, []);
 
   return (
     <div className="text-white min-h-screen bg-gradient-to-r from-gray-900 to-gray-800 px-4 pt-16">
