@@ -34,7 +34,11 @@ async function register(req, res) {
     });
 
     let token = generateToken(newUser);
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
     return res.status(201).json({
       success: true,
       message: "new user added",
@@ -83,7 +87,11 @@ async function login(req, res) {
     }
     let token = generateToken(user);
 
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
     return res.status(200).json({
       success: true,
       message: "user login successfully",
