@@ -15,7 +15,8 @@ function UserEditInfo({
         className="w-full max-w-md rounded-3xl p-6 relative
     bg-white/90 dark:bg-[#1f1a17]/95
     backdrop-blur-xl
-    border border-orange-200 dark:border-orange-900/40
+    border border-orange-200 dark:border-yellow-900/40
+
     shadow-2xl transition-all duration-300"
       >
         {/* close btn */}
@@ -39,7 +40,7 @@ function UserEditInfo({
 
         <div className="space-y-5">
           <div>
-            <label className="text-sm text-orange-700 dark:text-orange-300">
+            <label className=" text-orange-700 dark:text-orange-300">
               Username
             </label>
 
@@ -51,14 +52,14 @@ function UserEditInfo({
               className="w-full mt-2 rounded-xl px-4 py-3
           bg-orange-50 dark:bg-[#2a211d]
           text-gray-800 dark:text-white
-          border border-orange-200 dark:border-orange-800
+          border border-orange-200 dark:border-yellow-800
           outline-none focus:ring-2 focus:ring-orange-400
           transition-all"
             />
           </div>
 
           <div>
-            <label className="text-sm text-orange-700 dark:text-orange-300">
+            <label className=" text-orange-700 dark:text-orange-300">
               Email
             </label>
 
@@ -70,7 +71,7 @@ function UserEditInfo({
               className="w-full mt-2 rounded-xl px-4 py-3
           bg-orange-50 dark:bg-[#2a211d]
           text-gray-800 dark:text-white
-          border border-orange-200 dark:border-orange-800
+          border border-orange-200 dark:border-yellow-800
           outline-none focus:ring-2 focus:ring-orange-400
           transition-all"
             />
@@ -81,11 +82,7 @@ function UserEditInfo({
             {/* delete account */}
             <button
               onClick={handleDeleteAccount}
-              className="cursor-pointer px-5 py-2 rounded-xl font-medium text-white
-          bg-gradient-to-r from-red-500 to-rose-500
-          hover:from-red-600 hover:to-rose-600
-          shadow-md shadow-red-300/20
-          transition-all"
+              className="cursor-pointer px-5 py-2 rounded-xl font-medium text-white bg-red-500 hover:bg-red-600"
             >
               Delete Account
             </button>
@@ -93,11 +90,7 @@ function UserEditInfo({
             {/* save */}
             <button
               onClick={handleUpdateUser}
-              className="cursor-pointer px-5 py-2 rounded-xl font-medium text-white
-          bg-gradient-to-r from-orange-500 to-amber-500
-          hover:from-orange-600 hover:to-amber-600
-          shadow-md shadow-orange-300/20
-          transition-all"
+              className="cursor-pointer px-5 py-2 rounded-xl font-medium text-white bg-orange-500 hover:bg-orange-600"
             >
               Save Changes
             </button>

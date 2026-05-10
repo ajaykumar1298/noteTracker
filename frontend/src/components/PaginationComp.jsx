@@ -23,7 +23,7 @@ function PaginationComp({ page, setPage, totalPages }) {
           className={`w-10 h-10 rounded-xl font-semibold border transition-all duration-300
       ${
         page === index + 1
-          ? "bg-gradient-to-r from-orange-500 to-amber-500 border-orange-500 text-white shadow-lg"
+          ? "bg-orange-500 border-orange-600 text-white "
           : "bg-white dark:bg-[#1f1a17] border-orange-200 dark:border-orange-900/40 text-orange-500 hover:bg-orange-500 hover:text-white"
       }`}
         >

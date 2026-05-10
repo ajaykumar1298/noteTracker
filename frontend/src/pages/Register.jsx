@@ -56,7 +56,7 @@ transition-all duration-300"
     bg-white/80 dark:bg-[#1f1a17]/90
     backdrop-blur-xl
     rounded-3xl
-    border border-orange-200 dark:border-orange-900/40
+     dark:border-orange-900/40
     shadow-2xl"
         >
           <h2
@@ -70,7 +70,7 @@ transition-all duration-300"
             <div>
               <label
                 htmlFor="username"
-                className="text-orange-700 dark:text-orange-300 text-sm"
+                className="text-orange-700 dark:text-orange-300 "
               >
                 User Name
               </label>
@@ -83,7 +83,7 @@ transition-all duration-300"
                 className="w-full mt-1 p-3 rounded-xl
             bg-orange-50 dark:bg-[#2a211d]
             text-gray-800 dark:text-white
-            border border-orange-200 dark:border-orange-800
+            border border-orange-200 dark:border-yellow-800
             focus:outline-none focus:ring-2 focus:ring-orange-400
             text-sm transition-all"
               />
@@ -92,7 +92,7 @@ transition-all duration-300"
             <div>
               <label
                 htmlFor="email"
-                className="text-orange-700 dark:text-orange-300 text-sm"
+                className="text-orange-700 dark:text-orange-300"
               >
                 User Email
               </label>
@@ -106,7 +106,7 @@ transition-all duration-300"
                 className="w-full mt-1 p-3 rounded-xl
             bg-orange-50 dark:bg-[#2a211d]
             text-gray-800 dark:text-white
-            border border-orange-200 dark:border-orange-800
+            border border-orange-200 dark:border-yellow-800
             focus:outline-none focus:ring-2 focus:ring-orange-400
             text-sm transition-all"
               />
@@ -115,7 +115,7 @@ transition-all duration-300"
             <div>
               <label
                 htmlFor="password"
-                className="text-orange-700 dark:text-orange-300 text-sm"
+                className="text-orange-700 dark:text-orange-300 "
               >
                 User Password
               </label>
@@ -128,7 +128,7 @@ transition-all duration-300"
                 className="w-full mt-1 p-3 rounded-xl
             bg-orange-50 dark:bg-[#2a211d]
             text-gray-800 dark:text-white
-            border border-orange-200 dark:border-orange-800
+            border border-orange-200 dark:border-yellow-800
             focus:outline-none focus:ring-2 focus:ring-orange-400
             text-sm transition-all"
               />
@@ -136,9 +136,7 @@ transition-all duration-300"
 
             <button
               type="submit"
-              className="w-full py-3 mt-4
-          bg-gradient-to-r from-orange-600 to-amber-500
-          hover:from-orange-700 hover:to-amber-600
+              className="w-full py-3 mt-4 bg-orange-500 hover:bg-orange-600
           rounded-xl font-semibold text-white"
               onClick={() => {
                 handleRegister();

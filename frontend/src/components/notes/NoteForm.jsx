@@ -6,7 +6,7 @@ function NoteForm({ title, desc, setTitle, setDesc, handleAddNote }) {
       className="rounded-3xl p-6 sticky top-6
   bg-white/80 dark:bg-[#1f1a17]/90
   backdrop-blur-xl
-  border border-orange-200 dark:border-orange-900/40
+  border border-orange-200 dark:border-yellow-900/40
   shadow-2xl transition-all duration-300"
     >
       <h2 className="text-2xl font-bold text-orange-600 dark:text-orange-400 mb-1">
@@ -19,7 +19,7 @@ function NoteForm({ title, desc, setTitle, setDesc, handleAddNote }) {
 
       <div className="space-y-5">
         <div>
-          <label className="text-sm text-orange-700 dark:text-orange-300">
+          <label className=" text-orange-700 dark:text-orange-300">
             Note Title
           </label>
 
@@ -39,7 +39,7 @@ function NoteForm({ title, desc, setTitle, setDesc, handleAddNote }) {
         </div>
 
         <div>
-          <label className="text-sm text-orange-700 dark:text-orange-300">
+          <label className=" text-orange-700 dark:text-orange-300">
             Description
           </label>
 
@@ -60,12 +60,7 @@ function NoteForm({ title, desc, setTitle, setDesc, handleAddNote }) {
 
         <button
           onClick={handleAddNote}
-          className="w-full py-3 rounded-xl font-semibold text-white
-      bg-gradient-to-r from-orange-500 to-amber-500
-      hover:from-orange-600 hover:to-amber-600
-      hover:scale-[1.01]
-      shadow-lg shadow-orange-300/30
-      transition-all duration-300"
+          className="w-full py-3 rounded-xl font-semibold text-white bg-orange-500 hover:bg-orange-600"
         >
           Add Note
         </button>

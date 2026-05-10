@@ -116,7 +116,7 @@ function Navbar() {
         className="flex justify-between items-center px-4 sm:px-6 py-4 sticky top-0 z-40
 bg-white/80 dark:bg-[#1a120b]/90
 backdrop-blur-xl
-border-b border-orange-200 dark:border-orange-900/40
+ dark:border-orange-900/40
 shadow-lg shadow-orange-100/20 dark:shadow-black/20
 transition-all duration-300 text-gray-800 dark:text-white"
       >

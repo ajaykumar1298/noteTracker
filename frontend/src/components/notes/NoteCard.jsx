@@ -14,8 +14,8 @@ function NoteCard({ note, handleEditClick, handleDeleteNote }) {
       className="rounded-3xl p-6 shadow-xl flex flex-col
   bg-white/80 dark:bg-[#1f1a17]/90
   backdrop-blur-xl
-  border border-orange-200 dark:border-orange-900/40
-  hover:border-orange-400 dark:hover:border-orange-700
+  border border-yellow-200 dark:border-yellow-900/40
+  hover:border-yellow-400 dark:hover:border-yellow-700
   hover:-translate-y-1
   transition-all duration-300"
     >
@@ -50,10 +50,8 @@ function NoteCard({ note, handleEditClick, handleDeleteNote }) {
         <button
           onClick={() => handleEditClick(note)}
           className="px-4 py-2 rounded-xl text-sm font-medium text-white
-      bg-gradient-to-r from-orange-500 to-amber-500
-      hover:from-orange-600 hover:to-amber-600
-      shadow-md shadow-orange-300/20
-      transition-all cursor-pointer"
+    bg-orange-500 hover:bg-orange-600
+     cursor-pointer"
         >
           Edit
         </button>
@@ -61,10 +59,8 @@ function NoteCard({ note, handleEditClick, handleDeleteNote }) {
         <button
           onClick={() => handleDeleteNote(note._id)}
           className="px-4 py-2 rounded-xl text-sm font-medium text-white
-      bg-gradient-to-r from-red-500 to-rose-500
-      hover:from-red-600 hover:to-rose-600
-      shadow-md shadow-red-300/20
-      transition-all cursor-pointer"
+          bg-red-500 hover:bg-red-600  
+          cursor-pointer"
         >
           Delete
         </button>

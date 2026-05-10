@@ -23,7 +23,7 @@ function EditNoteModel({
           className="absolute top-4 right-4
       text-gray-500 dark:text-gray-400
       hover:text-orange-500 dark:hover:text-orange-400
-      text-2xl transition-all"
+      text-2xl transition-all cursor-pointer"
         >
           ×
         </button>
@@ -38,7 +38,7 @@ function EditNoteModel({
 
         <div className="space-y-5">
           <div>
-            <label className="text-sm text-orange-700 dark:text-orange-300">
+            <label className=" text-orange-700 dark:text-orange-300">
               Note Title
             </label>
 
@@ -49,14 +49,14 @@ function EditNoteModel({
               className="w-full mt-2 rounded-xl px-4 py-3
           bg-orange-50 dark:bg-[#2a211d]
           text-gray-800 dark:text-white
-          border border-orange-200 dark:border-orange-800
+          border border-orange-200 dark:border-yellow-800
           outline-none focus:ring-2 focus:ring-orange-400
           transition-all"
             />
           </div>
 
           <div>
-            <label className="text-sm text-orange-700 dark:text-orange-300">
+            <label className=" text-orange-700 dark:text-orange-300">
               Description
             </label>
 
@@ -67,7 +67,7 @@ function EditNoteModel({
               className="w-full mt-2 rounded-xl px-4 py-3 resize-none
           bg-orange-50 dark:bg-[#2a211d]
           text-gray-800 dark:text-white
-          border border-orange-200 dark:border-orange-800
+          border border-orange-200 dark:border-yellow-800
           outline-none focus:ring-2 focus:ring-orange-400
           transition-all"
             />
@@ -77,10 +77,10 @@ function EditNoteModel({
             <button
               onClick={handleCloseModal}
               className="px-5 py-2 rounded-xl
-          bg-gray-400 dark:bg-[#2a211d]
-          text-gray-700 dark:text-gray-300
-          hover:bg-gray-500 dark:hover:bg-[#3a2b24]
-          transition-all"
+          bg-gray-400 dark:bg-stone-700
+          text-white dark:text-gray-300
+          hover:bg-gray-500 dark:hover:bg-stone-800
+          transition-all cursor-pointer"
             >
               Cancel
             </button>
@@ -88,9 +88,8 @@ function EditNoteModel({
             <button
               onClick={() => handleUpdateNote(editId)}
               className="px-5 py-2 rounded-xl text-white
-          bg-gradient-to-r from-orange-500 to-amber-500
-          hover:from-orange-600 hover:to-amber-600
-          transition-all"
+              bg-orange-500 hover:bg-orange-600
+          transition-all cursor-pointer"
             >
               Save Changes
             </button>
