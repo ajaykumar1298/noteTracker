@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { addNote, deleteNote, getNotes, updateNote } from "../api/noteApi";
 import NoteForm from "../components/notes/NoteForm";
-import NoteCardSkeleton from "../components/notes/noteCardSkeleton";
 import NoNotes from "../components/notes/NoNotes";
 import NoteCard from "../components/notes/NoteCard";
 import EditNoteModel from "../components/notes/EditNoteModel";
-import Pagination from "../components/pagination";
+import PaginationComp from "../components/PaginationComp";
+import NoteCardSkeletonComp from "../components/notes/NoteCardSkeletonComp";
+// import Pagination from "../components/pagination";
 
 function Note() {
   // note form
@@ -26,7 +27,7 @@ function Note() {
 
   const [page, setPage] = useState(1);
 
-  const notesPerPage = 10;
+  const notesPerPage = 2;
 
   // fetch notes
   const fetchNotes = async () => {
@@ -147,12 +148,25 @@ function Note() {
   const currentNotes = notes.slice(startIndex, endIndex);
 
   return (
-    <div className="min-h-screen bg-[#071028] text-white px-4 py-10">
+    <div
+      className="min-h-screen px-4 py-10
+  bg-gradient-to-br
+  from-orange-50 via-amber-50 to-yellow-100
+  dark:from-[#120d08] dark:via-[#1b140f] dark:to-[#24160f]
+  text-gray-800 dark:text-white
+  transition-all duration-300"
+    >
       {/* heading */}
       <div className="max-w-6xl mx-auto mb-10">
-        <h1 className="text-4xl font-bold">Welcome Back 👋</h1>
+        <h1
+          className="text-4xl sm:text-5xl font-extrabold tracking-tight
+      bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500
+      bg-clip-text text-transparent"
+        >
+          Welcome Back 👋
+        </h1>
 
-        <p className="text-gray-400 mt-2">
+        <p className="text-gray-600 dark:text-gray-400 mt-3 text-base sm:text-lg">
           Manage your personal notes beautifully and efficiently.
         </p>
       </div>
@@ -173,23 +187,28 @@ function Note() {
         <div className="lg:col-span-2">
           <div className="flex justify-between items-center mb-6">
             <div>
-              <h2 className="text-3xl font-bold">Your Notes</h2>
+              <h2
+                className="text-3xl font-bold
+            text-orange-600 dark:text-orange-400"
+              >
+                Your Notes
+              </h2>
 
-              <p className="text-gray-400 text-sm mt-1">
+              <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
                 {!loading && <>Total Notes: {notes.length}</>}
               </p>
             </div>
           </div>
 
           {/* skeleton loading */}
-          {loading && <NoteCardSkeleton />}
+          {loading && <NoteCardSkeletonComp />}
 
           {/* no notes */}
           {!loading && notes.length === 0 && <NoNotes />}
 
           {/* notes list */}
           {!loading && (
-            <div className="grid grid-cols-1  gap-6 items-stretch">
+            <div className="grid grid-cols-1 gap-6 items-stretch">
               {currentNotes.map((note) => (
                 <NoteCard
                   key={note._id}
@@ -216,7 +235,11 @@ function Note() {
 
           {/* pagination */}
           {!loading && notes.length > notesPerPage && (
-            <Pagination page={page} setPage={setPage} totalPages={totalPages} />
+            <PaginationComp
+              page={page}
+              setPage={setPage}
+              totalPages={totalPages}
+            />
           )}
         </div>
       </div>

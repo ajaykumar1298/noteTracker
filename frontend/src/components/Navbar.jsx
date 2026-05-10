@@ -112,10 +112,19 @@ function Navbar() {
 
   return (
     <>
-      <div className="flex justify-between bg-[#111c44] border-b border-gray-700 items-center px-6 py-4 text-white sticky top-0 z-40">
+      <div
+        className="flex justify-between items-center px-4 sm:px-6 py-4 sticky top-0 z-40
+bg-white/80 dark:bg-[#1a120b]/90
+backdrop-blur-xl
+border-b border-orange-200 dark:border-orange-900/40
+shadow-lg shadow-orange-100/20 dark:shadow-black/20
+transition-all duration-300 text-gray-800 dark:text-white"
+      >
         <div
           onClick={() => navigate("/note")}
-          className="text-base sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent cursor-pointer"
+          className="text-base sm:text-xl md:text-2xl font-bold 
+    bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 
+    bg-clip-text text-transparent cursor-pointer"
         >
           NoteTracker
         </div>

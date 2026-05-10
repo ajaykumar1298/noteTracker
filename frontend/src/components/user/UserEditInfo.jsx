@@ -10,44 +10,69 @@ function UserEditInfo({
   handleUpdateUser,
 }) {
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50 px-4">
-      <div className="bg-[#111c44] border border-gray-700 w-full max-w-md rounded-3xl p-6 shadow-2xl relative">
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-md flex justify-center items-center z-50 px-4">
+      <div
+        className="w-full max-w-md rounded-3xl p-6 relative
+    bg-white/90 dark:bg-[#1f1a17]/95
+    backdrop-blur-xl
+    border border-orange-200 dark:border-orange-900/40
+    shadow-2xl transition-all duration-300"
+      >
         {/* close btn */}
         <button
           onClick={() => setIsEditOpen(false)}
-          className="cursor-pointer absolute top-4 right-4 text-gray-400 hover:text-white text-xl font-bold"
+          className="cursor-pointer absolute top-4 right-4
+      text-gray-500 dark:text-gray-400
+      hover:text-orange-500 dark:hover:text-orange-400
+      text-xl font-bold transition-all"
         >
-          X
+          ×
         </button>
 
-        <h2 className="text-2xl font-bold text-white mb-2">Edit Profile</h2>
+        <h2 className="text-2xl font-bold text-orange-600 dark:text-orange-400 mb-2">
+          Edit Profile
+        </h2>
 
-        <p className="text-gray-400 text-sm mb-6">
+        <p className="text-gray-600 dark:text-gray-400 text-sm mb-6">
           Update your account details.
         </p>
 
         <div className="space-y-5">
           <div>
-            <label className="text-sm text-gray-300">Username</label>
+            <label className="text-sm text-orange-700 dark:text-orange-300">
+              Username
+            </label>
 
             <input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Enter username"
-              className="w-full mt-2 bg-[#1d2a52] border border-gray-600 rounded-xl px-4 py-3 outline-none focus:border-blue-500 text-white"
+              className="w-full mt-2 rounded-xl px-4 py-3
+          bg-orange-50 dark:bg-[#2a211d]
+          text-gray-800 dark:text-white
+          border border-orange-200 dark:border-orange-800
+          outline-none focus:ring-2 focus:ring-orange-400
+          transition-all"
             />
           </div>
 
           <div>
-            <label className="text-sm text-gray-300">Email</label>
+            <label className="text-sm text-orange-700 dark:text-orange-300">
+              Email
+            </label>
 
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter email"
-              className="w-full mt-2 bg-[#1d2a52] border border-gray-600 rounded-xl px-4 py-3 outline-none focus:border-blue-500 text-white"
+              className="w-full mt-2 rounded-xl px-4 py-3
+          bg-orange-50 dark:bg-[#2a211d]
+          text-gray-800 dark:text-white
+          border border-orange-200 dark:border-orange-800
+          outline-none focus:ring-2 focus:ring-orange-400
+          transition-all"
             />
           </div>
 
@@ -56,7 +81,11 @@ function UserEditInfo({
             {/* delete account */}
             <button
               onClick={handleDeleteAccount}
-              className="cursor-pointer bg-red-500 hover:bg-red-600 px-5 py-2 rounded-xl font-medium text-white"
+              className="cursor-pointer px-5 py-2 rounded-xl font-medium text-white
+          bg-gradient-to-r from-red-500 to-rose-500
+          hover:from-red-600 hover:to-rose-600
+          shadow-md shadow-red-300/20
+          transition-all"
             >
               Delete Account
             </button>
@@ -64,7 +93,11 @@ function UserEditInfo({
             {/* save */}
             <button
               onClick={handleUpdateUser}
-              className="cursor-pointer bg-green-500 hover:bg-green-700 text-white px-5 py-2 rounded-xl font-medium"
+              className="cursor-pointer px-5 py-2 rounded-xl font-medium text-white
+          bg-gradient-to-r from-orange-500 to-amber-500
+          hover:from-orange-600 hover:to-amber-600
+          shadow-md shadow-orange-300/20
+          transition-all"
             >
               Save Changes
             </button>

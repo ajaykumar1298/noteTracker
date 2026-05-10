@@ -2,41 +2,70 @@ import React from "react";
 
 function NoteForm({ title, desc, setTitle, setDesc, handleAddNote }) {
   return (
-    <div className="bg-[#111c44] border border-gray-700 rounded-3xl p-6 shadow-2xl sticky top-6">
-      <h2 className="text-2xl font-bold mb-1">Create Note</h2>
+    <div
+      className="rounded-3xl p-6 sticky top-6
+  bg-white/80 dark:bg-[#1f1a17]/90
+  backdrop-blur-xl
+  border border-orange-200 dark:border-orange-900/40
+  shadow-2xl transition-all duration-300"
+    >
+      <h2 className="text-2xl font-bold text-orange-600 dark:text-orange-400 mb-1">
+        Create Note
+      </h2>
 
-      <p className="text-gray-400 text-sm mb-6">
+      <p className="text-gray-600 dark:text-gray-400 text-sm mb-6">
         Add your thoughts and ideas quickly.
       </p>
 
       <div className="space-y-5">
         <div>
-          <label className="text-sm text-gray-300">Note Title</label>
+          <label className="text-sm text-orange-700 dark:text-orange-300">
+            Note Title
+          </label>
 
           <input
             type="text"
             placeholder="Enter note title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full mt-2 bg-[#1d2a52] border border-gray-600 rounded-xl px-4 py-3 outline-none focus:border-blue-500"
+            className="w-full mt-2 rounded-xl px-4 py-3
+  bg-orange-50 dark:bg-[#2a211d]
+  text-gray-800 dark:text-white
+  placeholder:text-gray-500 dark:placeholder:text-gray-400
+  border border-orange-200 dark:border-yellow-800
+  outline-none focus:ring-2 focus:ring-orange-400
+  transition-all"
           />
         </div>
 
         <div>
-          <label className="text-sm text-gray-300">Description</label>
+          <label className="text-sm text-orange-700 dark:text-orange-300">
+            Description
+          </label>
 
           <textarea
             rows="6"
             placeholder="Write your note description..."
             value={desc}
             onChange={(e) => setDesc(e.target.value)}
-            className="w-full mt-2 bg-[#1d2a52] border border-gray-600 rounded-xl px-4 py-3 outline-none focus:border-blue-500 resize-none"
+            className="w-full mt-2 rounded-xl px-4 py-3
+  bg-orange-50 dark:bg-[#2a211d]
+  text-gray-800 dark:text-white
+  placeholder:text-gray-500 dark:placeholder:text-gray-400
+  border border-orange-200 dark:border-yellow-800
+  outline-none focus:ring-2 focus:ring-orange-400
+  transition-all"
           />
         </div>
 
         <button
           onClick={handleAddNote}
-          className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:scale-[1.01] transition-all py-3 rounded-xl font-semibold"
+          className="w-full py-3 rounded-xl font-semibold text-white
+      bg-gradient-to-r from-orange-500 to-amber-500
+      hover:from-orange-600 hover:to-amber-600
+      hover:scale-[1.01]
+      shadow-lg shadow-orange-300/30
+      transition-all duration-300"
         >
           Add Note
         </button>
