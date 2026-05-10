@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://note-tracker-mu.vercel.app",
+  "https://note-tracker-eight.vercel.app/",
 ];
 
 app.use(
