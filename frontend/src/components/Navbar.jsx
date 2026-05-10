@@ -5,6 +5,7 @@ import { UserCircle } from "lucide-react";
 import { deleteUser, updateUser } from "../api/authApi";
 import UserInfo from "./user/UserInfo";
 import UserEditInfo from "./user/UserEditInfo";
+import ThemeToggle from "./ThemeToggler";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -118,14 +119,17 @@ function Navbar() {
         >
           NoteTracker
         </div>
+        <div className="flex flex-row gap-4">
+          <ThemeToggle />
 
-        {user && !hideUserSection && (
-          <UserInfo
-            handleOpenEdit={handleOpenEdit}
-            user={user}
-            handleLogout={handleLogout}
-          />
-        )}
+          {user && !hideUserSection && (
+            <UserInfo
+              handleOpenEdit={handleOpenEdit}
+              user={user}
+              handleLogout={handleLogout}
+            />
+          )}
+        </div>
       </div>
 
       {/* edit popup */}
