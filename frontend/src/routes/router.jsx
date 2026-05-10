@@ -11,6 +11,7 @@ import Note from "../pages/Note";
 import ProtectedRoute from "../components/ProtectedRoute";
 import AuthRoute from "../components/AuthRoute";
 import App from "../App";
+import NotFound from "../pages/PageNotFound";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -50,6 +51,7 @@ const router = createBrowserRouter(
           </ProtectedRoute>
         }
       />
+      <Route path="*" element={<NotFound />} />
     </Route>,
   ),
 );
