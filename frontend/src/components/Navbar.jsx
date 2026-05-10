@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { UserCircle } from "lucide-react";
+import { deleteUser, updateUser } from "../api/authApi";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -56,25 +57,19 @@ function Navbar() {
         return;
       }
 
-      const updatedUser = {
+      const editData = {
         username,
         email,
       };
 
       // api call
-      const res = await axios.patch(
-        "http://localhost:3000/api/auth/update-user",
-        updatedUser,
-        {
-          withCredentials: true,
-        },
-      );
+      const res = await updateUser(editData);
 
       // update localStorage
-      localStorage.setItem("user", JSON.stringify(res.data.data.user));
+      localStorage.setItem("user", JSON.stringify(res.data.user));
 
       // update state
-      setUser(res.data.data.user);
+      setUser(res.data.user);
 
       alert("User updated successfully!");
 
@@ -95,17 +90,11 @@ function Navbar() {
 
       if (!confirmDelete) return;
 
-      await axios.delete("http://localhost:3000/api/auth/remove-user", {
-        withCredentials: true,
-      });
-
+      await deleteUser();
       localStorage.removeItem("user");
-
       setUser(null);
       setIsEditOpen(false);
-
       alert("Account deleted successfully!");
-
       navigate("/register");
     } catch (error) {
       console.log(error);

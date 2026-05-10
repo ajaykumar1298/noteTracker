@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { addNote, deleteNote, getNotes, updateNote } from "../api/noteApi";
 
 function Note() {
   const [title, setTitle] = useState("");
@@ -24,22 +25,15 @@ function Note() {
   const fetchNotes = async () => {
     try {
       setLoading(true);
-
-      const res = await axios.get("http://localhost:3000/api/note/all-notes", {
-        withCredentials: true,
-      });
-
+      const res = await getNotes();
       // small delay for smooth UI
       setTimeout(() => {
-        setNotes(res.data.data.notes);
-
+        setNotes(res.data.notes);
         setLoading(false);
       }, 800);
     } catch (error) {
       console.log(error);
-
       alert(error?.response?.data?.message || "Failed to fetch notes");
-
       setLoading(false);
     }
   };
@@ -53,32 +47,21 @@ function Note() {
     try {
       if (title.trim() === "" || desc.trim() === "") {
         alert("Title and Description are required");
-
         return;
       }
-
       const newNote = {
         title,
         desc,
       };
 
-      const res = await axios.post(
-        "http://localhost:3000/api/note/add",
-        newNote,
-        {
-          withCredentials: true,
-        },
-      );
+      const res = await addNote(newNote);
 
-      setNotes([res.data.data.note, ...notes]);
-
+      setNotes([res.data.note, ...notes]);
       setTitle("");
       setDesc("");
-
       alert("Note added successfully!");
     } catch (error) {
       console.log(error);
-
       alert("Failed to add note");
     }
   };
@@ -89,21 +72,13 @@ function Note() {
       const confirmDelete = confirm(
         "Are you sure you want to delete this note?",
       );
-
       if (!confirmDelete) return;
-
-      await axios.delete(`http://localhost:3000/api/note/remove/${id}`, {
-        withCredentials: true,
-      });
-
+      await deleteNote(id);
       const updatedNotes = notes.filter((note) => note._id !== id);
-
       setNotes(updatedNotes);
-
       alert("Note deleted successfully!");
     } catch (error) {
       console.log(error);
-
       alert(error?.response?.data?.message || "Failed to delete note");
     }
   };
@@ -111,7 +86,6 @@ function Note() {
   // open edit modal
   const handleEditClick = (note) => {
     setEditId(note._id);
-
     setEditTitle(note.title);
     setEditDesc(note.desc);
 
@@ -132,7 +106,6 @@ function Note() {
     try {
       if (editTitle.trim() === "" || editDesc.trim() === "") {
         alert("Title and Description are required");
-
         return;
       }
 
@@ -141,22 +114,13 @@ function Note() {
         desc: editDesc,
       };
 
-      const res = await axios.patch(
-        `http://localhost:3000/api/note/update/${id}`,
-        updatedData,
-        {
-          withCredentials: true,
-        },
+      const res = await updateNote(id, updatedData);
+
+      const newNotes = notes.map((note) =>
+        note._id === id ? res.data.note : note,
       );
-
-      const updatedNotes = notes.map((note) =>
-        note._id === id ? res.data.data.note : note,
-      );
-
-      setNotes(updatedNotes);
-
+      setNotes(newNotes);
       setIsEditModalOpen(false);
-
       alert("Note updated successfully!");
     } catch (error) {
       console.log(error);
@@ -238,7 +202,7 @@ function Note() {
               <h2 className="text-3xl font-bold">Your Notes</h2>
 
               <p className="text-gray-400 text-sm mt-1">
-                Total Notes: {notes.length}
+                {!loading && <>Total Notes: {notes.length}</>}
               </p>
             </div>
           </div>
