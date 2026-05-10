@@ -84,7 +84,7 @@ transition-all duration-300"
             bg-orange-50 dark:bg-[#2a211d]
             text-gray-800 dark:text-white
             border border-orange-200 dark:border-yellow-800
-            focus:outline-none focus:ring-2 focus:ring-orange-400
+            focus:outline-none focus:ring-1 focus:ring-orange-400
             text-sm transition-all"
               />
             </div>
@@ -107,7 +107,7 @@ transition-all duration-300"
             bg-orange-50 dark:bg-[#2a211d]
             text-gray-800 dark:text-white
             border border-orange-200 dark:border-yellow-800
-            focus:outline-none focus:ring-2 focus:ring-orange-400
+            focus:outline-none focus:ring-1 focus:ring-orange-400
             text-sm transition-all"
               />
             </div>
@@ -129,7 +129,7 @@ transition-all duration-300"
             bg-orange-50 dark:bg-[#2a211d]
             text-gray-800 dark:text-white
             border border-orange-200 dark:border-yellow-800
-            focus:outline-none focus:ring-2 focus:ring-orange-400
+            focus:outline-none focus:ring-1 focus:ring-orange-400
             text-sm transition-all"
               />
             </div>

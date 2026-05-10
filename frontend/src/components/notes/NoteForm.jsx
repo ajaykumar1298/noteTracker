@@ -33,7 +33,7 @@ function NoteForm({ title, desc, setTitle, setDesc, handleAddNote }) {
   text-gray-800 dark:text-white
   placeholder:text-gray-500 dark:placeholder:text-gray-400
   border border-orange-200 dark:border-yellow-800
-  outline-none focus:ring-2 focus:ring-orange-400
+  outline-none focus:ring-1 focus:ring-orange-400
   transition-all"
           />
         </div>
@@ -53,7 +53,7 @@ function NoteForm({ title, desc, setTitle, setDesc, handleAddNote }) {
   text-gray-800 dark:text-white
   placeholder:text-gray-500 dark:placeholder:text-gray-400
   border border-orange-200 dark:border-yellow-800
-  outline-none focus:ring-2 focus:ring-orange-400
+  outline-none focus:ring-1 focus:ring-orange-400
   transition-all"
           />
         </div>

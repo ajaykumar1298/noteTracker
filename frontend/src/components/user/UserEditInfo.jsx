@@ -53,7 +53,7 @@ function UserEditInfo({
           bg-orange-50 dark:bg-[#2a211d]
           text-gray-800 dark:text-white
           border border-orange-200 dark:border-yellow-800
-          outline-none focus:ring-2 focus:ring-orange-400
+          outline-none focus:ring-1 focus:ring-orange-400
           transition-all"
             />
           </div>
@@ -72,7 +72,7 @@ function UserEditInfo({
           bg-orange-50 dark:bg-[#2a211d]
           text-gray-800 dark:text-white
           border border-orange-200 dark:border-yellow-800
-          outline-none focus:ring-2 focus:ring-orange-400
+          outline-none focus:ring-1 focus:ring-orange-400
           transition-all"
             />
           </div>

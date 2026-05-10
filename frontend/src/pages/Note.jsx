@@ -27,7 +27,7 @@ function Note() {
 
   const [page, setPage] = useState(1);
 
-  const notesPerPage = 2;
+  const notesPerPage = 10;
 
   // fetch notes
   const fetchNotes = async () => {
@@ -146,6 +146,14 @@ function Note() {
   const endIndex = startIndex + notesPerPage;
 
   const currentNotes = notes.slice(startIndex, endIndex);
+
+  useEffect(() => {
+    const updatedTotalPages = Math.ceil(notes.length / notesPerPage);
+
+    if (page > updatedTotalPages && updatedTotalPages > 0) {
+      setPage(updatedTotalPages);
+    }
+  }, [notes, page]);
 
   return (
     <div
