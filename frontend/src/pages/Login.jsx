@@ -9,6 +9,7 @@ function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const handleLogin = async () => {
     try {
       if (!email || !password) {
@@ -21,6 +22,7 @@ function Login() {
         return;
       }
 
+      setLoading(true);
       const data = await loginUser({ email, password });
       let userDetail = {
         username: data.data.user.username,
@@ -28,10 +30,11 @@ function Login() {
       };
       setUser(userDetail);
       alert("Login Successful");
+      setLoading(false);
       navigate("/note");
     } catch (error) {
       console.log(error);
-
+      setLoading(false);
       alert(error?.response?.data?.message || "Login Failed");
     }
   };
@@ -105,15 +108,37 @@ transition-all duration-300"
               />
             </div>
             <button
+              disabled={loading}
               type="submit"
-              className="w-full py-3 mt-4 bg-orange-500 hover:bg-orange-600
-          hover:from-orange-700 hover:to-amber-600
-          rounded-xl font-semibold text-white"
-              onClick={() => {
-                handleLogin();
-              }}
+              className="w-full py-3 mt-4 bg-orange-500 hover:bg-orange-600 rounded-xl font-semibold text-white flex items-center justify-center gap-2 disabled:opacity-70"
+              onClick={handleLogin}
             >
-              Login
+              {loading ? (
+                <>
+                  <svg
+                    className="w-5 h-5 animate-spin"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                    />
+                  </svg>
+                  Logging in...
+                </>
+              ) : (
+                "Login"
+              )}
             </button>
           </div>
           <div className="text-center mt-4 text-gray-600 dark:text-gray-400 text-sm">

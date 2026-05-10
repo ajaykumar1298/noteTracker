@@ -7,6 +7,7 @@ import { setUser } from "../utils/storage";
 
 function Register() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     username: "",
     email: "",
@@ -23,6 +24,7 @@ function Register() {
         alert("Invalid Email");
         return;
       }
+      setLoading(true);
 
       const data = await registerUser(form);
       let userDetail = {
@@ -31,8 +33,10 @@ function Register() {
       };
       setUser(userDetail);
       alert("New user add successfully!");
+      setLoading(false);
       navigate("/note");
     } catch (error) {
+      setLoading(false);
       console.log(error);
       alert(error?.response?.data?.message || "something went wrong");
     }
@@ -135,14 +139,37 @@ transition-all duration-300"
             </div>
 
             <button
+              disabled={loading}
               type="submit"
-              className="w-full py-3 mt-4 bg-orange-500 hover:bg-orange-600
-          rounded-xl font-semibold text-white"
-              onClick={() => {
-                handleRegister();
-              }}
+              className="w-full py-3 mt-4 bg-orange-500 hover:bg-orange-600 rounded-xl font-semibold text-white flex items-center justify-center gap-2 disabled:opacity-70"
+              onClick={handleRegister}
             >
-              Register
+              {loading ? (
+                <>
+                  <svg
+                    className="w-5 h-5 animate-spin"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                    />
+                  </svg>
+                  Registering...
+                </>
+              ) : (
+                "Register"
+              )}
             </button>
 
             <div className="text-center mt-4 text-gray-600 dark:text-gray-400 text-sm">
