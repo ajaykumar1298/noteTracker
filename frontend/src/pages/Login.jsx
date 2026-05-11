@@ -23,7 +23,7 @@ function Login() {
       }
 
       setLoading(true);
-      const data = await loginUser({ email, password });
+      const data = await loginUser({ email: email.toLowerCase(), password });
       let userDetail = {
         username: data.data.user.username,
         email: data.data.user.email,

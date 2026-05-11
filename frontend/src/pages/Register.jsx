@@ -25,6 +25,7 @@ function Register() {
         return;
       }
       setLoading(true);
+      form.email = form.email.toLowerCase();
 
       const data = await registerUser(form);
       let userDetail = {
