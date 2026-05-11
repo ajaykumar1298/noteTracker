@@ -1,11 +1,11 @@
 export const getUser = () => {
-  return JSON.parse(localStorage.getItem("user"));
+  return JSON.parse(sessionStorage.getItem("user"));
 };
 
 export const setUser = (user) => {
-  localStorage.setItem("user", JSON.stringify(user));
+  sessionStorage.setItem("user", JSON.stringify(user));
 };
 
 export const removeUser = () => {
-  localStorage.removeItem("user");
+  sessionStorage.removeItem("user");
 };

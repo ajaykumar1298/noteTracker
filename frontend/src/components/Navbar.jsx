@@ -27,7 +27,7 @@ function Navbar() {
 
   // dark mode
   useEffect(() => {
-    const theme = localStorage.getItem("theme");
+    const theme = sessionStorage.getItem("theme");
 
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
@@ -38,18 +38,18 @@ function Navbar() {
   const toggleTheme = () => {
     if (darkMode) {
       document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
+      sessionStorage.setItem("theme", "light");
     } else {
       document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
+      sessionStorage.setItem("theme", "dark");
     }
 
     setDarkMode(!darkMode);
   };
 
-  // latest user from localStorage
+  // latest user from sessionStorage
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const storedUser = JSON.parse(sessionStorage.getItem("user"));
     setUser(storedUser);
   }, [location]);
 
@@ -57,7 +57,7 @@ function Navbar() {
   const handleLogout = async () => {
     setIsMenuOpen(false);
 
-    localStorage.removeItem("user");
+    sessionStorage.removeItem("user");
 
     setUser(null);
 
@@ -101,8 +101,8 @@ function Navbar() {
       // api call
       const res = await updateUser(editData);
 
-      // update localStorage
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+      // update sessionStorage
+      sessionStorage.setItem("user", JSON.stringify(res.data.user));
 
       // update state
       setUser(res.data.user);
@@ -128,7 +128,7 @@ function Navbar() {
 
       await deleteUser();
 
-      localStorage.removeItem("user");
+      sessionStorage.removeItem("user");
 
       setUser(null);
 
