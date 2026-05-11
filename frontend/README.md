@@ -1,16 +1,171 @@
-# React + Vite
+# NoteTracker 📝
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+NoteTracker is a modern and responsive full-stack note-taking application where users can create, edit, delete, and manage personal notes with authentication support.
 
-Currently, two official plugins are available:
+Built using React.js, Vite, Tailwind CSS, Node.js, Express.js, and MongoDB.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🚀 Live Demo
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Frontend:  
+https://note-tracker-snowy.vercel.app/
 
-## Expanding the ESLint configuration
+Backend API:  
+https://notetracker-2.onrender.com/api
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+# ✨ Features
+
+- 🔐 User Authentication (Register/Login)
+- 📝 Create Notes
+- ✏️ Edit Notes
+- 🗑️ Delete Notes
+- 👤 Update User Profile
+- ❌ Delete Account
+- 🌙 Dark / Light Mode
+- 📄 Pagination
+- ⚡ Loading Skeleton UI
+- 🔒 Protected Routes
+- 📱 Fully Responsive Design
+- 💬 Toast Notifications
+
+---
+
+# 🛠️ Tech Stack
+
+## Frontend
+- React.js
+- Vite
+- Tailwind CSS
+- React Router DOM
+- Axios
+- Lucide React
+
+## Backend
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT Authentication
+
+---
+
+# 📂 Folder Structure
+
+```bash
+src
+│
+├── api
+│   ├── authApi.js
+│   ├── noteApi.js
+│   └── axios.js
+│
+├── components
+│   ├── notes
+│   ├── user
+│   ├── Navbar.jsx
+│   ├── PaginationComp.jsx
+│   ├── ProtectedRoute.jsx
+│   └── ThemeToggle.jsx
+│
+├── pages
+│   ├── Login.jsx
+│   ├── Register.jsx
+│   ├── Note.jsx
+│   └── PageNotFound.jsx
+│
+├── routes
+│   └── router.jsx
+│
+├── utils
+│   ├── storage.js
+│   └── validators.js
+│
+├── App.jsx
+└── main.jsx
+```
+
+---
+
+# ⚙️ Installation & Setup
+
+## 1️⃣ Clone Repository
+
+```bash
+git clone https://github.com/ajaykumar1298/noteTracker.git
+```
+
+## 2️⃣ Move Into Project Folder
+
+```bash
+cd NoteTracker
+```
+
+## 3️⃣ Install Dependencies
+
+```bash
+npm install
+```
+
+## 4️⃣ Start Development Server
+
+```bash
+npm run dev
+```
+
+---
+
+
+# 🔑 Authentication Flow
+
+- User registers/login
+- User data stored in sessionStorage
+- Protected routes prevent unauthorized access
+- Auto redirect for logged-in users
+
+---
+
+
+# 📦 API Endpoints
+
+## Auth Routes
+
+```bash
+POST    /auth/register
+POST    /auth/login
+PATCH   /auth/update-user
+DELETE  /auth/remove-user
+```
+
+## Note Routes
+
+```bash
+GET     /note/all-notes
+POST    /note/add
+PATCH   /note/update/:id
+DELETE  /note/remove/:id
+```
+
+---
+
+# 🧠 Future Improvements
+
+- Search Notes
+- Filter Notes
+- Pin Notes
+- Favorite Notes
+
+
+---
+
+# 👨‍💻 Author
+
+Ajay Kumar
+
+---
+
+# ⭐ Support
+
+If you like this project, give it a ⭐ on GitHub.

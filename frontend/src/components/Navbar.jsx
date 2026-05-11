@@ -6,6 +6,7 @@ import { deleteUser, updateUser } from "../api/authApi";
 import UserInfo from "./user/UserInfo";
 import UserEditInfo from "./user/UserEditInfo";
 import ThemeToggle from "./ThemeToggler";
+import toast from "react-hot-toast";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -61,7 +62,7 @@ function Navbar() {
 
     setUser(null);
 
-    alert("User logged out successfully!");
+    toast.success("User logged out successfully!");
 
     navigate("/login");
   };
@@ -80,7 +81,7 @@ function Navbar() {
   const handleUpdateUser = async () => {
     try {
       if (username.trim() === "" || email.trim() === "") {
-        alert("All fields are required");
+        toast.error("All fields are required");
         return;
       }
 
@@ -89,7 +90,7 @@ function Navbar() {
       let isEmailValid = emailRegex.test(email);
 
       if (!isEmailValid) {
-        alert("Email is not valid");
+        toast.error("Email is not valid");
         return;
       }
 
@@ -107,13 +108,13 @@ function Navbar() {
       // update state
       setUser(res.data.user);
 
-      alert("User updated successfully!");
+      toast.success("User updated successfully!");
 
       setIsEditOpen(false);
     } catch (error) {
       console.log(error);
 
-      alert(error?.response?.data?.message || "Failed to update user");
+      toast.error(error?.response?.data?.message || "Failed to update user");
     }
   };
 
@@ -134,13 +135,13 @@ function Navbar() {
 
       setIsEditOpen(false);
 
-      alert("Account deleted successfully!");
+      toast.success("Account deleted successfully!");
 
       navigate("/register");
     } catch (error) {
       console.log(error);
 
-      alert(error?.response?.data?.message || "Failed to delete account");
+      toast.error(error?.response?.data?.message || "Failed to delete account");
     }
   };
 

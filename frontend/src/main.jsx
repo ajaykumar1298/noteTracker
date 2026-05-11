@@ -5,6 +5,24 @@ import "./index.css";
 import router from "./routes/router.jsx";
 import { RouterProvider } from "react-router-dom";
 
+import { Toaster } from "react-hot-toast";
+
 createRoot(document.getElementById("root")).render(
-  <RouterProvider router={router}></RouterProvider>,
+  <StrictMode>
+    <RouterProvider router={router} />
+
+    <Toaster
+      position="top-right"
+      reverseOrder={false}
+      toastOptions={{
+        duration: 3000,
+
+        style: {
+          background: "#fff7ed",
+          color: "#ea580c",
+          border: "1px solid #fdba74",
+        },
+      }}
+    />
+  </StrictMode>,
 );

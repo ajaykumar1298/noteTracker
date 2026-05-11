@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { validateEmail } from "../utils/validators";
 import { registerUser } from "../api/authApi";
 import { setUser } from "../utils/storage";
+import toast from "react-hot-toast";
 
 function Register() {
   const navigate = useNavigate();
@@ -17,11 +18,11 @@ function Register() {
   const handleRegister = async function () {
     try {
       if (!form.username || !form.email || !form.password) {
-        alert("All fields are required");
+        toast.error("All fields are required");
         return;
       }
       if (!validateEmail(form.email)) {
-        alert("Invalid Email");
+        toast.error("Invalid Email");
         return;
       }
       setLoading(true);
@@ -33,13 +34,13 @@ function Register() {
         email: data.data.user.email,
       };
       setUser(userDetail);
-      alert("New user add successfully!");
+      toast.success("New user add successfully!");
       setLoading(false);
       navigate("/note");
     } catch (error) {
       setLoading(false);
       console.log(error);
-      alert(error?.response?.data?.message || "something went wrong");
+      toast.error(error?.response?.data?.message || "something went wrong");
     }
   };
 

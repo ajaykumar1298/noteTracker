@@ -7,6 +7,7 @@ import NoteCard from "../components/notes/NoteCard";
 import EditNoteModel from "../components/notes/EditNoteModel";
 import PaginationComp from "../components/PaginationComp";
 import NoteCardSkeletonComp from "../components/notes/NoteCardSkeletonComp";
+import toast from "react-hot-toast";
 // import Pagination from "../components/pagination";
 
 function Note() {
@@ -42,7 +43,7 @@ function Note() {
       }, 800);
     } catch (error) {
       console.log(error);
-      alert(error?.response?.data?.message || "Failed to fetch notes");
+      toast.error(error?.response?.data?.message || "Failed to fetch notes");
       setLoading(false);
     }
   };
@@ -55,7 +56,7 @@ function Note() {
   const handleAddNote = async () => {
     try {
       if (title.trim() === "" || desc.trim() === "") {
-        alert("Title and Description are required");
+        toast.error("Title and Description are required");
         return;
       }
       const newNote = {
@@ -68,10 +69,10 @@ function Note() {
       setNotes([res.data.note, ...notes]);
       setTitle("");
       setDesc("");
-      alert("Note added successfully!");
+      toast.success("Note added successfully!");
     } catch (error) {
       console.log(error);
-      alert("Failed to add note");
+      toast.error("Failed to add note");
     }
   };
 
@@ -85,10 +86,10 @@ function Note() {
       await deleteNote(id);
       const updatedNotes = notes.filter((note) => note._id !== id);
       setNotes(updatedNotes);
-      alert("Note deleted successfully!");
+      toast.success("Note deleted successfully!");
     } catch (error) {
       console.log(error);
-      alert(error?.response?.data?.message || "Failed to delete note");
+      toast.error(error?.response?.data?.message || "Failed to delete note");
     }
   };
 
@@ -114,7 +115,7 @@ function Note() {
   const handleUpdateNote = async (id) => {
     try {
       if (editTitle.trim() === "" || editDesc.trim() === "") {
-        alert("Title and Description are required");
+        toast.error("Title and Description are required");
         return;
       }
 
@@ -130,11 +131,11 @@ function Note() {
       );
       setNotes(newNotes);
       setIsEditModalOpen(false);
-      alert("Note updated successfully!");
+      toast.success("Note updated successfully!");
     } catch (error) {
       console.log(error);
 
-      alert(error?.response?.data?.message || "Failed to update note");
+      toast.error(error?.response?.data?.message || "Failed to update note");
     }
   };
 

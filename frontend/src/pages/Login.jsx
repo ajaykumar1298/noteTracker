@@ -4,6 +4,7 @@ import axios from "axios";
 import { validateEmail } from "../utils/validators";
 import { loginUser } from "../api/authApi";
 import { setUser } from "../utils/storage";
+import toast from "react-hot-toast";
 
 function Login() {
   const navigate = useNavigate();
@@ -13,12 +14,12 @@ function Login() {
   const handleLogin = async () => {
     try {
       if (!email || !password) {
-        alert("All fields are required");
+        toast.error("All fields are required");
         return;
       }
 
       if (!validateEmail(email)) {
-        alert("Invalid Email");
+        toast.error("Invalid Email");
         return;
       }
 
@@ -29,13 +30,13 @@ function Login() {
         email: data.data.user.email,
       };
       setUser(userDetail);
-      alert("Login Successful");
+      toast.success("Login Successful");
       setLoading(false);
       navigate("/note");
     } catch (error) {
       console.log(error);
       setLoading(false);
-      alert(error?.response?.data?.message || "Login Failed");
+      toast.error(error?.response?.data?.message || "Login Failed");
     }
   };
 
